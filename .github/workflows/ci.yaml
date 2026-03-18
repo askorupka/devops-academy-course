@@ -18,4 +18,4 @@ jobs:
           python-version: 3.11
 
       - name: Install dependecies
-        run: pip install -r requirements.txt
+        run: pip install -r 01-ci-lab/requirements.txt
