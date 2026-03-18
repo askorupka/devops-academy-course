@@ -15,7 +15,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: [3.9, 3.10, 3.11]
 
       - name: Install dependecies
         run: pip install -r 01-ci-lab/requirements.txt
