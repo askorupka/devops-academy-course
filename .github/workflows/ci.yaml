@@ -21,4 +21,4 @@ jobs:
         run: pip install -r 01-ci-lab/requirements.txt
 
       - name: Run tests
-        run: pytest 
+        run: pytest 01-ci-lab
