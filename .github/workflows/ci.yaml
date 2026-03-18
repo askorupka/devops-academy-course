@@ -22,3 +22,6 @@ jobs:
 
       - name: Run tests
         run: pytest 01-ci-lab
+
+      - name: Run liter
+        run: flake8 .
