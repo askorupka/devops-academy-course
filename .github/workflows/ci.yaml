@@ -1,0 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 20260317_class
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositoru
+        uses: actions/checkout@v3
