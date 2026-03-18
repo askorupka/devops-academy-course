@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - 20260317_class
+      - 20260319_class
 
 jobs:
   test:
