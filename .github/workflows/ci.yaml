@@ -19,3 +19,6 @@ jobs:
 
       - name: Install dependecies
         run: pip install -r 01-ci-lab/requirements.txt
+
+      - name: Run tests
+        run: pytest 
