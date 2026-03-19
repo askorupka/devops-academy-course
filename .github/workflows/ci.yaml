@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependecies
+      - name: Install dependencies
         run: pip install -r 01-ci-lab/requirements.txt
 
       - name: Run tests
