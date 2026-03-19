@@ -1,9 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - 20260319_class
+  pull_request:
 
 jobs:
   test:
