@@ -1,0 +1,24 @@
+name: CI # name of workflow
+
+on: [push] # trigger
+
+jobs: # jobs
+  test:
+    runs-on: ubuntu-latest # runner
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install requirements
+        run: pip install -r 01-ci-lab/requirements.txt
+
+
+      - name: Run tests
+        run: pytest 01-ci-lab
+
