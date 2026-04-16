@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: 01-ci-lab
+
     steps:
 
       - name: Checkout repository
@@ -17,7 +21,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r ./01-ci-lab/requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run test
-        run: pytest 01-ci-lab
+        run: pytest 
