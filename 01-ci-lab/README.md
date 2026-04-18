@@ -17,4 +17,4 @@ pytest
 
 3. Create a workflow in
 
-`.github/workflows/ci.yml`
+`.github/workflows/ci.yaml`
