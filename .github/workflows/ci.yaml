@@ -1,7 +1,5 @@
 name: CI (test)
 
-# on: [push]
-
 on:
   push:
     branches:
