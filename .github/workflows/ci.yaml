@@ -66,4 +66,13 @@ jobs:
         run: |
           cp app/calculator.py lambda_function.py
           zip function.zip lambda_function.py
+
+      - name: Deploy Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name calculator-app \
+            --zip-file fileb://function.zip
+
+
+
     
