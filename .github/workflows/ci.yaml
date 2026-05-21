@@ -58,12 +58,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::350469506175:role/github-actions-lambda-deploy-role
           aws-region: eu-central-1
-
-
-
-
-
-
-
-
+          
+      - name: Prepare Lambda package
+        run: |
+          cp app/calculator.py lambda_function.py
+          zip function.zip lambda_function.py
     
