@@ -73,6 +73,7 @@ jobs:
             --function-name calculator-app \
             --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
             --runtime python3.13 \
+            --handler lambda_function.lambda_handler \
             --zip-file fileb://function.zip
 
       - name: Deploy Lambda
