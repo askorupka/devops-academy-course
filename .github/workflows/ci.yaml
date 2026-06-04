@@ -67,17 +67,25 @@ jobs:
           cp app/calculator.py lambda_function.py
           zip function.zip lambda_function.py
 
-      - name: Create Lambda
+      - name: Create/update Lambda
         run: |
-          aws lambda create-function \
-            --function-name calculator-app \
-            --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
-            --runtime python3.13 \
-            --handler lambda_function.lambda_handler \
-            --zip-file fileb://function.zip
+          if aws lambda get-function --function-name calculator-app >/dev/null 2>&1; then
 
-      - name: Deploy Lambda
-        run: |
-          aws lambda update-function-code \
-            --function-name calculator-app \
-            --zip-file fileb://function.zip
+            echo "calculator-app lambda exists"
+
+            aws lambda update-function-code \
+              --function-name calculator-app \
+              --zip-file fileb://function.zip
+
+          else
+
+            echo "calculator-app lambda doesn't exist, creating"
+
+            aws lambda create-function \
+              --function-name calculator-app \
+              --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
+              --runtime python3.13 \
+              --handler lambda_function.lambda_handler \
+              --zip-file fileb://function.zip
+          
+          fi
