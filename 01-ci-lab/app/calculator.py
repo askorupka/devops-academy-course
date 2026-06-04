@@ -1,3 +1,6 @@
+import json
+
+
 def add(a, b):
     return a + b
 
@@ -11,19 +14,23 @@ def multiply(a, b):
 
 
 def lambda_handler(event, context):
-    a = event["a"]
-    b = event["b"]
+    body = json.loads(event["body"])
 
-    operation = event["operation"]
+    a = body["a"]
+    b = body["b"]
+    operation = body["operation"]
 
     if operation == "add":
         result = add(a, b)
     elif operation == "divide":
         result = divide(a, b)
     else:
-        return {"statusCode": 400, "body": "Unsupported operation"}
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"error": "Unsupported operation"})
+        }
 
     return {
         "statusCode": 200,
-        "body": result
+        "body": json.dumps({"result": result})
     }
