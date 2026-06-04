@@ -67,6 +67,14 @@ jobs:
           cp app/calculator.py lambda_function.py
           zip function.zip lambda_function.py
 
+      - name: Create Lambda
+        run: |
+          aws lambda create-function \
+            --function-name calculator-app \
+            --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
+            --runtime python3.13 \
+            --zip-file fileb://function.zip
+
       - name: Deploy Lambda
         run: |
           aws lambda update-function-code \
