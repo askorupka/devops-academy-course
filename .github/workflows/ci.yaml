@@ -108,14 +108,14 @@ jobs:
 
               aws lambda add-permission \
                 --function-name calculator-app \
-                --statement-id FunctionURLAllowPublicAccess \
+                --statement-id FunctionAllowPublicAccess \
                 --action lambda:InvokeFunctionUrl \
                 --principal "*" \
                 --function-url-auth-type NONE || true
 
               aws lambda add-permission \
                 --function-name calculator-app \
-                --statement-id FunctionURLAllowInvokeAction \
+                --statement-id FunctionAllowInvokeAction \
                 --action lambda:InvokeFunction \
                 --principal "*" \
                 --invoked-via-function-url true || true
