@@ -14,10 +14,15 @@ def multiply(a, b):
 
 
 def lambda_handler(event, context):
-    body = json.loads(event["body"])
+    # Function URL / API Gateway
+    if "body" in event:
+        body = json.loads(event["body"]) if isinstance(event["body"], str) else event["body"]
+    # Test from AWS console
+    else:
+        body = event
 
-    a = body["a"]
-    b = body["b"]
+    a = float(body["a"])
+    b = float(body["b"])
     operation = body["operation"]
 
     if operation == "add":
