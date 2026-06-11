@@ -111,6 +111,6 @@ jobs:
                 --statement-id FunctionAllowInvokeAction \
                 --action lambda:InvokeFunction \
                 --principal "*" \
-                --invoked-via-function-url true
+                --invoked-via-function-url
 
             fi
