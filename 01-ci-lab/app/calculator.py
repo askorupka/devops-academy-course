@@ -16,8 +16,11 @@ def multiply(a, b):
 def lambda_handler(event, context):
     # Function URL / API Gateway
     if "body" in event:
-        body = json.loads(event["body"]) if isinstance(event["body"], str) else event["body"]
-    # Test from AWS console
+        if isinstance(event["body"], str):
+            body = json.loads(event["body"])
+        else:
+            body = event["body"]
+    # Test from AWS Console
     else:
         body = event
 
