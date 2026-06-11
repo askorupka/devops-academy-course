@@ -89,28 +89,3 @@ jobs:
               --zip-file fileb://function.zip
           
           fi
-
-      - name: Create Lambda URL
-        run: |
-            if ! aws lambda get-function-url-config \
-                --function-name calculator-app >/dev/null 2>&1; then
-
-              aws lambda create-function-url-config \
-                --function-name calculator-app \
-                --auth-type NONE
-
-              aws lambda add-permission \
-                --function-name calculator-app \
-                --statement-id FunctionAllowPublicAccess \
-                --action lambda:InvokeFunctionUrl \
-                --principal "*" \
-                --function-url-auth-type NONE
-
-              aws lambda add-permission \
-                --function-name calculator-app \
-                --statement-id FunctionAllowInvokeAction \
-                --action lambda:InvokeFunction \
-                --principal "*" \
-                --invoked-via-function-url
-
-            fi

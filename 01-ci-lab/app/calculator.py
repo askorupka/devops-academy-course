@@ -24,8 +24,8 @@ def lambda_handler(event, context):
     else:
         body = event
 
-    a = float(body["a"])
-    b = float(body["b"])
+    a = body["a"]
+    b = body["b"]
     operation = body["operation"]
 
     if operation == "add":
