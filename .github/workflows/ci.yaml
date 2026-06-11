@@ -106,4 +106,18 @@ jobs:
                 --principal "*" \
                 --function-url-auth-type NONE
 
+              aws lambda add-permission \
+                --function-name calculator-app \
+                --statement-id FunctionURLAllowPublicAccess \
+                --action lambda:InvokeFunctionUrl \
+                --principal "*" \
+                --function-url-auth-type NONE || true
+
+              aws lambda add-permission \
+                --function-name calculator-app \
+                --statement-id FunctionURLAllowInvokeAction \
+                --action lambda:InvokeFunction \
+                --principal "*" \
+                --invoked-via-function-url true || true
+
             fi
