@@ -13,6 +13,10 @@ def multiply(a, b):
     return a * b
 
 
+def substract(a, b):
+    return a - b
+
+
 def lambda_handler(event, context):
     # Function URL / API Gateway
     if "body" in event:
@@ -32,6 +36,10 @@ def lambda_handler(event, context):
         result = add(a, b)
     elif operation == "divide":
         result = divide(a, b)
+    elif operation == "multiply":
+        result = multiply(a, b)
+    elif operation == "substract":
+        result = substract(a, b)
     else:
         return {
             "statusCode": 400,
