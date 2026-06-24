@@ -89,3 +89,10 @@ jobs:
               --zip-file fileb://function.zip
           
           fi
+
+      - name: Create function URL
+        run: |
+
+          aws lambda create-function-url-config \
+            --function-name calculator-app \
+            --auth-type NONE
