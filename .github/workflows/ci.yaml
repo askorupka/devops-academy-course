@@ -51,6 +51,9 @@ jobs:
 
     needs: test
 
+    env:
+      LAMBDA_NAME: calculator-app
+
     steps:
 
       - name: Checkout repository
@@ -69,20 +72,20 @@ jobs:
 
       - name: Create/update Lambda
         run: |
-          if aws lambda get-function --function-name calculator-app >/dev/null 2>&1; then
+          if aws lambda get-function --function-name ${{ env.LAMBDA_NAME }} >/dev/null 2>&1; then
 
-            echo "calculator-app lambda exists"
+            echo "${{ env.LAMBDA_NAME }} lambda exists"
 
             aws lambda update-function-code \
-              --function-name calculator-app \
+              --function-name ${{ env.LAMBDA_NAME }} \
               --zip-file fileb://function.zip
 
           else
 
-            echo "calculator-app lambda doesn't exist, creating"
+            echo "${{ env.LAMBDA_NAME }} lambda doesn't exist, creating"
 
             aws lambda create-function \
-              --function-name calculator-app \
+              --function-name ${{ env.LAMBDA_NAME }} \
               --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
               --runtime python3.13 \
               --handler lambda_function.lambda_handler \
@@ -93,10 +96,19 @@ jobs:
       - name: Create function URL
         run: |
           if ! aws lambda get-function-url-config \
-            --function-name calculator-app >/dev/null 2>&1; then
+            --function-name ${{ env.LAMBDA_NAME }} >/dev/null 2>&1; then
+
+            echo "URL doesn't exist, creating"
 
             aws lambda create-function-url-config \
-              --function-name calculator-app \
+              --function-name ${{ env.LAMBDA_NAME }} \
               --auth-type NONE
+
+          else
+
+            echo "URL exists"
+
+            aws lambda get-function-url-config \
+              --function-name ${{ env.LAMBDA_NAME }}
 
           fi
