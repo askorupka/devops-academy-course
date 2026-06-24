@@ -92,7 +92,11 @@ jobs:
 
       - name: Create function URL
         run: |
+          if ! aws lambda get-function-url-config \
+            --function-name calculator-app >/dev/null 2>&1; then
 
-          aws lambda create-function-url-config \
-            --function-name calculator-app \
-            --auth-type NONE
+            aws lambda create-function-url-config \
+              --function-name calculator-app \
+              --auth-type NONE
+
+          fi
