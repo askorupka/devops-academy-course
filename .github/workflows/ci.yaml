@@ -104,7 +104,7 @@ jobs:
               --function-name ${{ env.LAMBDA_NAME }} \
               --auth-type NONE
 
-            aws lambda add-permission \ lambda:InvokeFunction
+            aws lambda add-permission \ 
               --function-name ${{ env.LAMBDA_NAME }} \
               --statement-id FunctionAllowPublicAccessUrl \
               --action lambda:InvokeFunctionUrl \
