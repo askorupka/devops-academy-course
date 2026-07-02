@@ -104,6 +104,20 @@ jobs:
               --function-name ${{ env.LAMBDA_NAME }} \
               --auth-type NONE
 
+            aws lambda add-permission \ lambda:InvokeFunction
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --statement-id FunctionAllowPublicAccessUrl \
+              --action lambda:InvokeFunctionUrl \
+              --principal "*" \
+              --function-url-auth-type NONE
+
+            aws lambda add-permission \ 
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --statement-id FunctionAllowPublicAccess \
+              --action lambda:InvokeFunction \
+              --principal "*" \
+              --invoked-via-function-url
+
           else
 
             echo "URL exists"
