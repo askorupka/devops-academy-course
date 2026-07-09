@@ -23,10 +23,10 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -38,3 +38,91 @@ jobs:
 
       - name: Run linter
         run: flake8 .    
+  
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: 01-ci-lab
+
+    permissions:
+      id-token: write
+
+    needs: test
+
+    env:
+      LAMBDA_NAME: calculator-app
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::350469506175:role/github-actions-lambda-deploy-role
+          aws-region: eu-central-1
+          
+      - name: Prepare Lambda package
+        run: |
+          cp app/calculator.py lambda_function.py
+          zip function.zip lambda_function.py
+
+      - name: Create/update Lambda
+        run: |
+          if aws lambda get-function --function-name ${{ env.LAMBDA_NAME }} >/dev/null 2>&1; then
+
+            echo "${{ env.LAMBDA_NAME }} lambda exists"
+
+            aws lambda update-function-code \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --zip-file fileb://function.zip
+
+          else
+
+            echo "${{ env.LAMBDA_NAME }} lambda doesn't exist, creating"
+
+            aws lambda create-function \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --role arn:aws:iam::350469506175:role/service-role/calculator-app-role-cnpkrehb \
+              --runtime python3.13 \
+              --handler lambda_function.lambda_handler \
+              --zip-file fileb://function.zip
+          
+          fi
+
+      - name: Create function URL
+        run: |
+          if ! aws lambda get-function-url-config \
+            --function-name ${{ env.LAMBDA_NAME }} >/dev/null 2>&1; then
+
+            echo "URL doesn't exist, creating"
+
+            aws lambda create-function-url-config \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --auth-type NONE
+
+            aws lambda add-permission \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --statement-id FunctionAllowPublicAccessUrl \
+              --action lambda:InvokeFunctionUrl \
+              --principal "*" \
+              --function-url-auth-type NONE
+
+            aws lambda add-permission \
+              --function-name ${{ env.LAMBDA_NAME }} \
+              --statement-id FunctionAllowPublicAccess \
+              --action lambda:InvokeFunction \
+              --principal "*" \
+              --invoked-via-function-url
+
+          else
+
+            echo "URL exists"
+
+            aws lambda get-function-url-config \
+              --function-name ${{ env.LAMBDA_NAME }}
+
+          fi
