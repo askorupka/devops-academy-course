@@ -104,14 +104,14 @@ jobs:
               --function-name ${{ env.LAMBDA_NAME }} \
               --auth-type NONE
 
-            aws lambda add-permission \ 
+            aws lambda add-permission \
               --function-name ${{ env.LAMBDA_NAME }} \
               --statement-id FunctionAllowPublicAccessUrl \
               --action lambda:InvokeFunctionUrl \
               --principal "*" \
               --function-url-auth-type NONE
 
-            aws lambda add-permission \ 
+            aws lambda add-permission \
               --function-name ${{ env.LAMBDA_NAME }} \
               --statement-id FunctionAllowPublicAccess \
               --action lambda:InvokeFunction \
