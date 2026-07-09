@@ -17,6 +17,10 @@ def substract(a, b):
     return a - b
 
 
+def power(a, b):
+    return a**b
+
+
 def lambda_handler(event, context):
     # Function URL / API Gateway
     if "body" in event:
@@ -40,6 +44,8 @@ def lambda_handler(event, context):
         result = multiply(a, b)
     elif operation == "substract":
         result = substract(a, b)
+    elif operation == "power":
+        result = power(a, b)
     else:
         return {
             "statusCode": 400,
