@@ -24,7 +24,7 @@ def power(a, b):
 def lambda_handler(event, context):
     # Function URL / API Gateway
     if "body" in event:
-        if isinstance(event["body"], str): #
+        if isinstance(event["body"], str):  #
             body = json.loads(event["body"])
         else:
             body = event["body"]
