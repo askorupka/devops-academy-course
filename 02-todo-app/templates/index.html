@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TODO App</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at top left, #7c3aed, transparent 35%),
+                radial-gradient(circle at bottom right, #2563eb, transparent 35%),
+                #0f172a;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            padding: 60px 20px;
+            color: #e2e8f0;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 680px;
+
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 42px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: #94a3b8;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px 16px;
+
+            border: 1px solid #334155;
+            border-radius: 12px;
+
+            background: #111827;
+            color: white;
+
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        button {
+            padding: 14px 22px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: linear-gradient(135deg, #8b5cf6, #2563eb);
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 16px 18px;
+            margin-bottom: 12px;
+
+            background: rgba(30, 41, 59, 0.8);
+
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .task-title {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .actions a {
+            text-decoration: none;
+
+            padding: 8px 12px;
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            transition: 0.2s ease;
+        }
+
+        .done-btn {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .done-btn:hover {
+            background: rgba(34, 197, 94, 0.25);
+        }
+
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 6px 10px;
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+
+            margin-bottom: 18px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+            }
+
+            li {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .actions {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="status">
+        ● Application running
+    </div>
+
+    <div class="header">
+        <h1>Focus List</h1>
+        <p>Simple tasks. Clear progress. Powered by Flask & Docker.</p>
+    </div>
+
+    <form method="POST" action="/add">
+
+        <input
+            type="text"
+            name="title"
+            placeholder="What needs to be done?"
+            required
+        >
+
+        <button type="submit">
+            + Add task
+        </button>
+
+    </form>
+
+    <ul>
+
+        {% for task in tasks %}
+
+        <li>
+
+            <div
+                class="task-title {% if task['done'] %}done{% endif %}"
+            >
+                {{ task["title"] }}
+            </div>
+
+            <div class="actions">
+
+                {% if not task["done"] %}
+
+                <a
+                    class="done-btn"
+                    href="/done/{{ task['id'] }}"
+                >
+                    ✓ Done
+                </a>
+
+                {% endif %}
+
+                <a
+                    class="delete-btn"
+                    href="/delete/{{ task['id'] }}"
+                >
+                    ✕ Delete
+                </a>
+
+            </div>
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    <div class="footer">
+        Flask • SQLite • Docker
+    </div>
+
+</div>
+
+</body>
+</html>
