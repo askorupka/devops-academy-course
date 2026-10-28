@@ -8,3 +8,5 @@ __pycache__/
 # virtual env
 .venv/
 env/
+
+todo.db
