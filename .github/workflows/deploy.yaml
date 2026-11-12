@@ -1,0 +1,20 @@
+name: Deploy Todo app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # defaults:
+    #   run:
+    #     working-directory: 01-ci-lab
+
+    steps:
+      - name: Say hello
+        run: echo "Hello world, starting deployment"
+
+
