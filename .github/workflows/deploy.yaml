@@ -5,16 +5,10 @@ on:
     branches:
       - main
       - 20261112_cicd
-
-# for the time of development, not to issue PR with potentially broken code to main
-
+      
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    # defaults:
-    #   run:
-    #     working-directory: 01-ci-lab
 
     steps:
       - name: Say hello
