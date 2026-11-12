@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 20261112_cicd # for the time of development, not to issue PR with potentially broken code to main
 
 jobs:
   deploy:
