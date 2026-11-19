@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 20261112_cicd # for testing, delete before merge with main
       
 jobs:
   deploy:
