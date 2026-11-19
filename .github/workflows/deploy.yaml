@@ -5,7 +5,11 @@ on:
     branches:
       - main
       - 20261112_cicd # for testing, delete before merge with main
-      
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,4 +18,13 @@ jobs:
       - name: Say hello
         run: echo "Hello world, starting deployment"
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
 
+      - name: Additional steps
+        run: |
+          # Your commands that require AWS credentials
+          aws sts get-caller-identity
