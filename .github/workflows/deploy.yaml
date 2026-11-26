@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Say hello
         run: echo "Hello world, starting deployment"
 
@@ -28,3 +29,13 @@ jobs:
         run: |
           # Your commands that require AWS credentials
           aws sts get-caller-identity
+
+      # - name: Checkout repository
+      #   uses: action/checkout@4
+    
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      
+        
