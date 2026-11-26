@@ -30,8 +30,8 @@ jobs:
           # Your commands that require AWS credentials
           aws sts get-caller-identity
 
-      # - name: Checkout repository
-      #   uses: action/checkout@4
+      - name: Checkout repository
+        uses: action/checkout@4
     
       - name: Login to Amazon ECR
         id: login-ecr
