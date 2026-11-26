@@ -42,6 +42,7 @@ jobs:
         run: ls
 
       - name: Build and push Docker image
+        working-directory: ./02-todo-app
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
