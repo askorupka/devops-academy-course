@@ -31,7 +31,7 @@ jobs:
           aws sts get-caller-identity
 
       - name: Checkout repository
-        uses: actions/checkout@4
+        uses: actions/checkout@7
     
       - name: Login to Amazon ECR
         id: login-ecr
